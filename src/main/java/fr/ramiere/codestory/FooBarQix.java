@@ -28,7 +28,7 @@ public class FooBarQix {
         ret.append(bar ? BAR : "");
         ret.append(qix ? QIX : "");
 
-        // presence rule
+        // foo/bar/qix digit presence rule
         foo |= value.contains("3");
         bar |= value.contains("5");
         qix |= value.contains("7");
@@ -38,22 +38,22 @@ public class FooBarQix {
             return value;
         }
 
-        // iterate on the digits and apply corresponding conversions
+        // iterate on the digits and apply foo/bar/qix conversions
         final int length = value.length();
         for (int i = 0; i < length; i++) {
             final char digit = value.charAt(i);
             switch (digit) {
             case '3':
-                ret.append(foo ? FOO : digit);
+                ret.append(FOO);
                 break;
             case '5':
-                ret.append(bar ? BAR : digit);
+                ret.append(BAR);
                 break;
             case '7':
-                ret.append(qix ? QIX : digit);
+                ret.append(QIX);
                 break;
             default:
-                // no op
+                // no op rule
                 break;
             }
         }
