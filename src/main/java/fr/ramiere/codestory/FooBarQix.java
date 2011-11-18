@@ -16,7 +16,7 @@ public class FooBarQix {
 
     public String convert(int number) {
         final String value = Integer.toString(number);
-        final StringBuffer ret = new StringBuffer();
+        final StringBuilder ret = new StringBuilder(value.length() * 3);
 
         // divisible
         boolean foo = number % 3 == 0;
@@ -29,9 +29,9 @@ public class FooBarQix {
         ret.append(qix ? QIX : "");
 
         // foo/bar/qix digit presence rule
-        foo |= value.contains("3");
-        bar |= value.contains("5");
-        qix |= value.contains("7");
+        foo |= value.indexOf('3') != -1;
+        bar |= value.indexOf('5') != -1;
+        qix |= value.indexOf('7') != -1;
 
         // no conversion to be done ? get out
         if (!foo && !bar && !qix) {
@@ -41,8 +41,7 @@ public class FooBarQix {
         // iterate on the digits and apply foo/bar/qix conversions
         final int length = value.length();
         for (int i = 0; i < length; i++) {
-            final char digit = value.charAt(i);
-            switch (digit) {
+            switch (value.charAt(i)) {
             case '3':
                 ret.append(FOO);
                 break;
