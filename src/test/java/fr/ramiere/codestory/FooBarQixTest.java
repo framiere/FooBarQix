@@ -5,17 +5,12 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.Before;
 import org.junit.Test;
 
-public class FooBarQixTest {
-
+public abstract class FooBarQixTest {
     FooBarQix fooBarQix;
-
-    @Before
-    public void setup() {
-        fooBarQix = new FooBarQix();
-    }
+    
+    public abstract void buildFooBarQix();
 
     @Test
     public void one_to_ten() {
@@ -61,6 +56,11 @@ public class FooBarQixTest {
         assertThat(fooBarQix.convert(33)).isEqualTo("FooFooFoo");
     }
 
+    @Test
+    public void test_45() {
+        assertThat(fooBarQix.convert(45)).isEqualTo("FooBarBar");
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void invalid_display() {
         fooBarQix.displayUpTo(0);
@@ -89,4 +89,5 @@ public class FooBarQixTest {
             System.setOut(out);
         }
     }
+
 }
