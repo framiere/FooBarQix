@@ -89,5 +89,10 @@ public abstract class FooBarQixTest {
             System.setOut(out);
         }
     }
-
+    
+    @Test
+    public void display_1_to_100() {
+        System.out.println("Results for " + fooBarQix.getClass().getSimpleName());
+        fooBarQix.displayUpTo(100);
+    }
 }
