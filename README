@@ -7,23 +7,7 @@ For performance : https://github.com/framiere/FooBarQix/blob/master/src/main/jav
 Fluent abuse : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixFluentAbuse.java
 
 
-Learning markdown
-
-<pre>
-             ,-. 
-    ,     ,-.   ,-. 
-   / \   (   )-(   ) 
-   \ |  ,.>-(   )-< 
-    \|,' (   )-(   ) 
-     Y ___`-'   `-' 
-     |/__/   `-' 
-     | 
-     | 
-     |    -hrr- 
-  ___|_____________ 
-</pre>
-
-<pre>
+```
     FooBarQixBenchmarkEnumTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
  round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 382, GC.time: 0.18, time.total: 2.60, time.warmup: 0.69, time.bench: 1.91
     Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.68 sec
@@ -35,4 +19,4 @@ Learning markdown
     FooBarQixBenchmarkPerfTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
  round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 205, GC.time: 0.12, time.total: 2.26, time.warmup: 0.59, time.bench: 1.67
     Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.278 sec
-</pre>
+```
