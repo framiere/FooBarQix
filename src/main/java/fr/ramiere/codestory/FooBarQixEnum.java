@@ -21,27 +21,23 @@ public class FooBarQixEnum extends FooBarQix {
     }
 
     static enum Code {
-        foo("Foo", 3), //
-        bar("Bar", 5), //
-        qix("Qix", 7);
-        private final String val;
+        Foo(3), Bar(5), Qix(7);
         private final int digit;
         private final char digitChar;
 
-        Code(String val, int digit) {
-            this.val = val;
+        Code(int digit) {
             this.digit = digit;
             this.digitChar = forDigit(digit, 10);
         }
 
         String divisible(int number) {
-            return number % digit == 0 ? val : "";
+            return number % digit == 0 ? name() : "";
         }
 
         static String convertDigit(char digitChar) {
-            for (Code p : values()) {
-                if (digitChar == p.digitChar) {
-                    return p.val;
+            for (Code code : values()) {
+                if (digitChar == code.digitChar) {
+                    return code.name();
                 }
             }
             return "";
