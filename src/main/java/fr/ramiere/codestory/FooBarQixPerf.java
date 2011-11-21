@@ -10,25 +10,10 @@ public class FooBarQixPerf extends FooBarQix {
         final String value = Integer.toString(number);
         final StringBuilder ret = new StringBuilder(value.length() * 3);
 
-        // divisible
-        boolean foo = number % 3 == 0;
-        boolean bar = number % 5 == 0;
-        boolean qix = number % 7 == 0;
-
         // divisibles rule
-        ret.append(foo ? FOO : "");
-        ret.append(bar ? BAR : "");
-        ret.append(qix ? QIX : "");
-
-        // foo/bar/qix digit presence rule
-        foo |= value.indexOf('3') != -1;
-        bar |= value.indexOf('5') != -1;
-        qix |= value.indexOf('7') != -1;
-
-        // no conversion to be done ? get out
-        if (!foo && !bar && !qix) {
-            return value;
-        }
+        ret.append(number % 3 == 0 ? FOO : "");
+        ret.append(number % 5 == 0 ? BAR : "");
+        ret.append(number % 7 == 0 ? QIX : "");
 
         // iterate on the digits and apply foo/bar/qix conversions
         final int length = value.length();
@@ -48,6 +33,6 @@ public class FooBarQixPerf extends FooBarQix {
                 break;
             }
         }
-        return ret.toString();
+        return ret.length() == 0 ? value : ret.toString();
     }
 }
