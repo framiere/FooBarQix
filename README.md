@@ -117,16 +117,17 @@ Bar
 # Bench result
 
 ```
+Running fr.ramiere.codestory.FooBarQixBenchmarkEnumTest
 FooBarQixBenchmarkEnumTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
- round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 382, GC.time: 0.18, time.total: 2.60, time.warmup: 0.69, time.bench: 1.91
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.68 sec
+ round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 382, GC.time: 0.19, time.total: 2.74, time.warmup: 0.75, time.bench: 1.99
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.829 sec
 Running fr.ramiere.codestory.FooBarQixBenchmarkFluentAbuseTest
 FooBarQixBenchmarkFluentAbuseTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
- round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 430, GC.time: 0.24, time.total: 3.01, time.warmup: 0.68, time.bench: 2.33
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.017 sec
+ round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 430, GC.time: 0.24, time.total: 3.05, time.warmup: 0.68, time.bench: 2.37
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.059 sec
 Running fr.ramiere.codestory.FooBarQixBenchmarkPerfTest
 FooBarQixBenchmarkPerfTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
- round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 205, GC.time: 0.12, time.total: 2.26, time.warmup: 0.59, time.bench: 1.67
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.278 sec
+ round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 205, GC.time: 0.12, time.total: 1.81, time.warmup: 0.49, time.bench: 1.32
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.827 sec
 ```
 
