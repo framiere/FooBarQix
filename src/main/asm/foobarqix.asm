@@ -7,32 +7,32 @@ section .text
 
 global mystart                ; make the main function externally visible
 
-mystart:
+write:
+    mov eax, 0x4              ; system call write code
+    int 0x80                  ; make system call
+    ret
 
-; 1 print message
+exit:
+    mov eax, 0x1              ; system call exit code
+    int 0x80                  ; make system call
+    ; no need to return
+
+mystart:
 
     ; 1a prepare the arguments for the system call to write
     push dword foobarqix_length                           
     push dword foobarqix_string
     push dword 1              ; file descriptor value
-
-    ; 1b make the system call to write
-    mov eax, 0x4              ; system call number for write
-    sub esp, 4                ; OS X "extra space" on stack
-    int 0x80                  ; make the actual system call
+	call write
 
     ; 1c clean up the stack
-    add esp, 16               ; 3 args * 4 bytes/arg + 4 bytes extra space = 16 bytes
+    add esp, 12
     
 ; 2 exit the program
 
-    push dword 0              ; exit status 
-    mov eax, 0x1              ; system call number for exit
-    sub esp, 4                ; OS X "extra space" on stack
-    int 0x80                  ; make the system call
+    push dword 0              ; exit status
+    call exit 
 
-; 2c no need to clean up the stack because no code here would executed: already exited
-    
 section .data
 
   foobarqix_string db "foo bar qix", 10
