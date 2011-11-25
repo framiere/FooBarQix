@@ -18,26 +18,38 @@ extern exit
 
 ; ------------------------------
 %define stdout  1
-%define printf printf
+%define max  10
+%define printf _printf
 
 global _main				; make the main function externally visible
 
 ; ------------------------------
 _main:
+	; please refer to http://fabiensanglard.net/macosxassembly/index.php 
+	; to understand what this is all about
     push    ebp
     mov     ebp, esp
 
+
+	mov ebx, 0
+loop:
+	cmp ebx, max
+	jz done
+
 	; call printf
-	push dword 10      
+	push  ebx      
 	push dword digit_format        
   	call printf
+  	
+  	inc ebx
+  	jmp loop
 
+done:
 	; write
 	push dword foobarqix_length						   
 	push dword foobarqix_string
 	push dword stdout
 	call write
-	add esp, 12			   	; 3 args * 4 bytes/arg 
 	
 	; exit 
 	push dword 4
@@ -49,4 +61,4 @@ section .data
 
   foobarqix_string db "foo bar qix", 10, 0
   foobarqix_length equ $-foobarqix_string
-  digit_format db '%10d', 10, 0	
+  digit_format db '%d', 10, 0	
