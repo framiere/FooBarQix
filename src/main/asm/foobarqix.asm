@@ -18,6 +18,7 @@ extern exit
 
 ; ------------------------------
 %define stdout  1
+%define printf printf
 
 global _main				; make the main function externally visible
 
@@ -26,9 +27,10 @@ _main:
     push    ebp
     mov     ebp, esp
 
+	; call printf
 	push dword 10      
 	push dword digit_format        
-  	call    _printf
+  	call printf
 
 	; write
 	push dword foobarqix_length						   
@@ -41,7 +43,6 @@ _main:
 	push dword 4
 	mov eax, 4			  
 	call exit 
-
 
 ; ------------------------------
 section .data
