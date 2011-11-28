@@ -1,8 +1,10 @@
+; to compile :
+; 
 ; nasm -g -f macho foobarqix.asm
-; nasm -g -f macho methods.asm
 ; gcc -arch i386 -o foobarqix  methods.o foobarqix.o
 ; 
-; to debug
+; to debug :
+;
 ; gdb foobarqix
 ; set disassembly-flavor intel
 ; break main
@@ -17,29 +19,18 @@ section .text
 ; OS X uses _ for symbol prefix
 extern _printf
 extern _sprintf
-extern _itoa
 extern _malloc
 
 ; ------------------------------
-; from methods.asm
-extern print_digit
-extern write
-extern exit
-
-; ------------------------------
-%define stdout 1
-%define start_value 1
-%define end_value 10
-%define return_ok 0
-%define foo_value 3
-%define bar_value 5
-%define qix_value 7
-
-%macro printf_digit 1
-	push %1
-	push dword digit_format        
-	call _printf
-%endmacro
+%define system_call		0x80
+%define system_write	0x4
+%define system_exit  	0x1
+%define start_value 	1
+%define end_value 		10
+%define return_ok 		0
+%define foo_value 		3
+%define bar_value 		5
+%define qix_value 		7
 
 %macro printf 1
 	push dword %1
@@ -54,83 +45,87 @@ extern exit
 	idiv  	esi
 %endmacro
 
-%macro reset_foo_bar_qix 0
-	mov  dword  [foo_divisible], 0
-	mov  dword  [bar_divisible], 0
-	mov  dword  [qix_divisible], 0
-%endmacro
-
 global _main
 
 ; ------------------------------
 _main:
-	; please refer to http://fabiensanglard.net/macosxassembly/index.php 
-	; to understand what this is all about
-	push    ebp
-	mov     ebp, esp
-	mov		ebx, start_value
-	
- sub     esp, byte 16	
-	push 	dword 0
-	push	dword string_format
-	push 	dword buffer
-	call 	_sprintf
-	
-	reset_foo_bar_qix
-	
-main_loop:
-	reset_foo_bar_qix
-	printf_digit ebx
+	; enter
+ 	push ebp
+    mov ebp, esp
+    push ebx
+    push esi
+    push edi	
 
-is_foo_divisible:
-	is_divisible foo_value
-	cmp 	edx, 0
-	jnz 	is_bar_divisible
-	mov 	dword [foo_divisible], 1
-	printf 	foo
+; buffer = malloc(42) 
+	sub 	esp, 8
+ 	push	dword 42
+	call	_malloc
+	add 	esp,8
+	test	eax, eax
+	jz		near	malloc_failed
+	mov 	[buffer], eax
+	printf 	malloc_success_msg
 
-is_bar_divisible:    
-	is_divisible bar_value
-	cmp 	edx, 0
-	jnz 	is_qix_divisible
-	mov 	dword [bar_divisible], 1
-	printf 	bar
+; strcpy(buffer, "Hell!\n")
+	mov 	eax, [buffer]
+	mov byte [eax + 0], 'H' 
+	mov byte [eax + 1], 'e' 
+	mov byte [eax + 2], 'l' 
+	mov byte [eax + 3], 'l' 
+	mov byte [eax + 4], '!' 
+	mov byte [eax + 5], 10
+	mov byte [eax + 6], 0
 	
-is_qix_divisible:    
-	is_divisible qix_value
-	cmp 	edx, 0
-	jnz 	main_loop_inc
-	printf 	qix
-	mov 	dword [qix_divisible], 1
+; printf(buffer)
+	printf 	[buffer]
 	
-main_loop_inc:
-	printf 	new_line
-	
-	inc 	ebx
-	cmp 	ebx, end_value
-	jnz  	main_loop
+; sprintf(buffer, "%d\n",42) 
+	sub 	esp, 12
+ 	push	dword 42
+ 	push	dword digit_format
+ 	push	dword buffer
+ 	call 	_sprintf
+	add 	esp, 12
 
-exit_program:
+; printf(buffer)
+	printf buffer
 
-	push 	dword return_ok
+; sprintf(buffer, "%d%d\n",42, 99) 
+	sub 	esp, 12
+ 	push	dword 99
+ 	push	dword 42
+ 	push	dword two_digits_format
+ 	push	dword buffer
+ 	call 	_sprintf
+	add 	esp, 12
+
+; printf(buffer)
+	printf buffer
+
+end:
+	push    dword return_ok
+	call    exit
+
+malloc_failed:
+	printf 	malloc_failed_msg
 	call 	exit
+
+exit:
+    mov eax, system_exit              ; system call exit code
+    int system_call                  ; make system call
+    ret
 	
 ; ------------------------------
 section .data
 
 ; printf	
-	foo				db 'foo', 0
-	bar				db 'bar', 0
-	qix				db 'qix', 0
-	new_line 		db  10, 0
-	string_format 	db '%s', 0
-	digit_format 	db '%d', 0
-; state
-	foo_divisible	dw 0 
-	bar_divisible	dw 0 
-	qix_divisible	dw 0 
-
-; ------------------------------
-section .bss
-	buffer			        resb 64  
-	
+	new_line			db  10, 0
+	string_format		db '%s', 0
+	digit_print			db '%d',10, 0
+; scanf
+	digit_format		db '%d', 10, 0
+	two_digits_format	db '%d%d', 10, 0
+; malloc
+	malloc_success_msg	dw 'malloc success', 10, 0
+	malloc_failed_msg	dw 'malloc failed', 10, 0
+	buffer			dw 0  
