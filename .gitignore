@@ -1,3 +1,9 @@
+*.o
+a.out
+foobarqix
+\#*.*
+*#
+
 # Folders
 target/
 .DS_Store

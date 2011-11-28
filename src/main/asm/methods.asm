@@ -1,10 +1,6 @@
 section .text
 
 ; ------------------------------
-; OS X uses _ for symbol prefix
-extern _fprintf
-
-; ------------------------------
 global write
 global exit
 
@@ -26,4 +22,7 @@ exit:
     int system_call                  ; make system call
     ret
 
-digit_format db '%10d', 0    
+; ------------------------------
+section .data
+
+digit_format db '%10d', 0
