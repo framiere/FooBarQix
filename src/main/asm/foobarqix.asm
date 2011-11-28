@@ -1,13 +1,22 @@
 ; nasm -g -f macho foobarqix.asm
 ; nasm -g -f macho methods.asm
 ; gcc -arch i386 -o foobarqix  methods.o foobarqix.o
-;
+; 
+; to debug
+; gdb foobarqix
+; set disassembly-flavor intel
+; break main
+; disassemble main
+; nexti
+; run
+; info stack
 
 section .text
 
 ; ------------------------------
 ; OS X uses _ for symbol prefix
 extern _printf
+extern _sprintf
 extern _itoa
 extern _malloc
 
@@ -28,13 +37,13 @@ extern exit
 
 %macro printf_digit 1
 	push %1
-	push dword printf_digit_format        
-  	call _printf
+	push dword digit_format        
+	call _printf
 %endmacro
 
 %macro printf 1
 	push dword %1
-	push dword printf_string_format
+	push dword string_format
 	call _printf
 %endmacro
 
@@ -42,7 +51,7 @@ extern exit
 	xor     edx, edx
 	mov 	eax, ebx
 	mov 	esi, %1
-    idiv  	esi
+	idiv  	esi
 %endmacro
 
 %macro reset_foo_bar_qix 0
@@ -57,11 +66,16 @@ global _main
 _main:
 	; please refer to http://fabiensanglard.net/macosxassembly/index.php 
 	; to understand what this is all about
-    push    ebp
-    mov     ebp, esp
-
+	push    ebp
+	mov     ebp, esp
 	mov		ebx, start_value
-
+	
+ sub     esp, byte 16	
+	push 	dword 0
+	push	dword string_format
+	push 	dword buffer
+	call 	_sprintf
+	
 	reset_foo_bar_qix
 	
 main_loop:
@@ -70,31 +84,31 @@ main_loop:
 
 is_foo_divisible:
 	is_divisible foo_value
-    cmp 	edx, 0
-    jnz 	is_bar_divisible
-    mov 	dword [foo_divisible], 1
+	cmp 	edx, 0
+	jnz 	is_bar_divisible
+	mov 	dword [foo_divisible], 1
 	printf 	foo
 
 is_bar_divisible:    
 	is_divisible bar_value
-    cmp 	edx, 0
-    jnz 	is_qix_divisible
-    mov 	dword [bar_divisible], 1
+	cmp 	edx, 0
+	jnz 	is_qix_divisible
+	mov 	dword [bar_divisible], 1
 	printf 	bar
 	
 is_qix_divisible:    
 	is_divisible qix_value
-    cmp 	edx, 0
-    jnz 	main_loop_inc
+	cmp 	edx, 0
+	jnz 	main_loop_inc
 	printf 	qix
-    mov 	dword [qix_divisible], 1
+	mov 	dword [qix_divisible], 1
 	
 main_loop_inc:
 	printf 	new_line
-
-  	inc 	ebx
-  	cmp 	ebx, end_value
-  	jnz  	main_loop
+	
+	inc 	ebx
+	cmp 	ebx, end_value
+	jnz  	main_loop
 
 exit_program:
 
@@ -105,15 +119,18 @@ exit_program:
 section .data
 
 ; printf	
-	foo						db 'foo', 0
-	bar						db 'bar', 0
-	qix						db 'qix', 0
-	new_line 				db  10, 0
-	printf_string_format 	db '%s', 0
-	printf_digit_format 	db '%d', 0
-	buffer			        times 64 db 0  
+	foo				db 'foo', 0
+	bar				db 'bar', 0
+	qix				db 'qix', 0
+	new_line 		db  10, 0
+	string_format 	db '%s', 0
+	digit_format 	db '%d', 0
 ; state
-	foo_divisible			dw 0 
-	bar_divisible			dw 0 
-	qix_divisible			dw 0 
+	foo_divisible	dw 0 
+	bar_divisible	dw 0 
+	qix_divisible	dw 0 
+
+; ------------------------------
+section .bss
+	buffer			        resb 64  
 	
