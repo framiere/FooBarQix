@@ -20,7 +20,7 @@ section .text
 extern _printf
 extern _sprintf
 extern _malloc
-extern _strcpy
+extern _bzero
 
 ; ------------------------------
 %define system_call		0x80
@@ -32,7 +32,7 @@ extern _strcpy
 %define foo_value 		3
 %define bar_value 		5
 %define qix_value 		7
-%define buffer_size 	20
+%define buffer_size 	32
 
 %macro printf 1
 	push dword %1
@@ -59,58 +59,68 @@ _main:
     push	edi	
 
 ; buffer = malloc(buffer_size) 
-	sub 	esp, 1*4 + 4
+	sub 	esp, 2*4 
  	push	dword buffer_size
 	call	_malloc
-	add 	esp, 1* 4 + 4
+	add 	esp, 2*4
 	test	eax, eax
 	jz		near malloc_failed
 	mov 	[buffer], eax
-	printf 	malloc_success_msg
 
-; manual equivalent of strcpy(buffer, "Hell!\n")
-	call manual_copy
-	
-; printf(buffer)
-	printf 	[buffer]
-
-; strcpy(buffer, message)
-	push 	message
-	push 	dword [buffer]
-	call 	_strcpy
-	
-; printf(buffer)
-	printf 	[buffer]
-	
-; sprintf(buffer, "%d\n",42) 
+; number = malloc(buffer_size) 
 	sub 	esp, 3*4
- 	push	dword 42
+ 	push	dword buffer_size
+	call	_malloc
+	add 	esp, 3*4
+	test	eax, eax
+	jz		near malloc_failed
+	mov 	[number], eax
+
+; for(ebx = start_value; ebx < end_value; ebx ++) 
+	mov 	ebx, start_value
+main_loop:
+	; bzero(buffer, buffer_size)
+	sub 	esp, 3*4
+ 	push	dword buffer_size
+ 	push	dword buffer
+	call	_bzero
+	add 	esp, 3*4
+	
+	; bzero(number, buffer_size)
+	sub 	esp, 3*4
+ 	push	dword buffer_size
+ 	push	dword number
+	call	_bzero
+	add 	esp, 4*4
+
+	; sprintf(buffer, "%d", ebx) 
+	sub 	esp, 7*4
+ 	push	dword ebx
  	push	dword digit_format
  	push	dword buffer
  	call 	_sprintf
-	add 	esp, 3*4
+	add 	esp, 7*4
+	
+;	printf buffer
+	
 
-; printf(buffer)
-	printf buffer
-
-; sprintf(buffer, "%d%d\n",42, 99) 
-	sub 	esp, 4*4
- 	push	dword 99
- 	push	dword 42
- 	push	dword two_digits_format
- 	push	dword buffer
- 	call 	_sprintf
-	add 	esp, 4*4
-
-; printf(buffer)
-	printf buffer
+;	printf  number
+	
+check_bar:    
+	
+continue:
+		
+	cmp		ebx, end_value
+	jz		end
+	inc		ebx
+	jmp		main_loop 
 
 end:
 	push    dword return_ok
 	call    exit
 
 malloc_failed:
-	printf 	malloc_failed_msg
+	printf malloc_failed_msg
 	call 	exit
 
 exit:
@@ -118,29 +128,20 @@ exit:
     int 	system_call
     ret
 
-manual_copy:
-	mov eax, [buffer]
-	mov byte [eax + 0], 'H' 
-	mov byte [eax + 1], 'e' 
-	mov byte [eax + 2], 'l' 
-	mov byte [eax + 3], 'l' 
-	mov byte [eax + 4], '!' 
-	mov byte [eax + 5], 10
-	mov byte [eax + 6], 0
-	ret
-	
+
 ; ------------------------------
 section .data
 
 ; printf	
 	new_line		db  10, 0
-	string_format	db '%s', 0
+	string_format	db '%s', 10, 0
 	digit_print		db '%d',10, 0
 	message			db 'FooBarQix',10, 0
 ; scanf
 	digit_format		db '%d', 10, 0
 	two_digits_format	db '%d%d', 10, 0
 ; malloc
-	malloc_success_msg	dw 'malloc success', 10, 0
 	malloc_failed_msg	dw 'malloc failed', 10, 0
 	buffer				dw 0  
+	number				dw 0  
+	
