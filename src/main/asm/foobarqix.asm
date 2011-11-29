@@ -68,14 +68,7 @@ _main:
 	printf 	malloc_success_msg
 
 ; manual equivalent of strcpy(buffer, "Hell!\n")
-	mov 	eax, [buffer]
-	mov byte [eax + 0], 'H' 
-	mov byte [eax + 1], 'e' 
-	mov byte [eax + 2], 'l' 
-	mov byte [eax + 3], 'l' 
-	mov byte [eax + 4], '!' 
-	mov byte [eax + 5], 10
-	mov byte [eax + 6], 0
+	call manual_copy
 	
 ; printf(buffer)
 	printf 	[buffer]
@@ -120,9 +113,20 @@ malloc_failed:
 	call 	exit
 
 exit:
-    mov eax, system_exit              ; system call exit code
-    int system_call                  ; make system call
+    mov 	eax, system_exit
+    int 	system_call
     ret
+
+manual_copy:
+	mov eax, [buffer]
+	mov byte [eax + 0], 'H' 
+	mov byte [eax + 1], 'e' 
+	mov byte [eax + 2], 'l' 
+	mov byte [eax + 3], 'l' 
+	mov byte [eax + 4], '!' 
+	mov byte [eax + 5], 10
+	mov byte [eax + 6], 0
+	ret
 	
 ; ------------------------------
 section .data
