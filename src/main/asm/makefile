@@ -4,9 +4,8 @@ run:
 	./foobarqix
 
 compile:
-	nasm -g -f macho foobarqix.asm
-	nasm -g -f macho methods.asm
-	gcc -arch i386 -o foobarqix  *.o 
+	nasm -f macho foobarqix.asm
+	gcc -gstabs -arch i386 -o foobarqix  foobarqix.o 
 
 clean:
 	rm -f foobarqix *.o #.*

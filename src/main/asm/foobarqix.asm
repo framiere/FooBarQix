@@ -32,6 +32,7 @@ extern _strcpy
 %define foo_value 		3
 %define bar_value 		5
 %define qix_value 		7
+%define buffer_size 	20
 
 %macro printf 1
 	push dword %1
@@ -50,18 +51,18 @@ global _main
 
 ; ------------------------------
 _main:
-	; enter
- 	push ebp
-    mov ebp, esp
-    push ebx
-    push esi
-    push edi	
+ 	push	ebp
+    mov		ebp, esp
+    sub 	esp, 16
+    push 	ebx
+    push	esi
+    push	edi	
 
-; buffer = malloc(42) 
+; buffer = malloc(buffer_size) 
 	sub 	esp, 1*4 + 4
- 	push	dword 42
+ 	push	dword buffer_size
 	call	_malloc
-	add 	esp, 1*4 + 4
+	add 	esp, 1* 4 + 4
 	test	eax, eax
 	jz		near malloc_failed
 	mov 	[buffer], eax
