@@ -4,11 +4,16 @@
 * Regles : http://www.code-story.net/2011/11/16/foobarqix.html
 * Implementation des regles du 16 Nov 2011
 
-# Versions
+# Versions J
 
-* With enums : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixEnum.java
-* For performance : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixPerf.java
-* Fluent abuse : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixFluentAbuse.java
+* Java
+ * With enums : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixEnum.java
+ * For performance : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixPerf.java
+ * Fluent abuse : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixFluentAbuse.java
+* C
+ * https://github.com/framiere/FooBarQix/blob/master/src/main/c/foobarqix.c
+* ASM (work in progress)
+ * https://github.com/framiere/FooBarQix/blob/master/src/main/asm/foobarqix.asm
 
 # Results
 
