@@ -10,6 +10,8 @@
  * With enums : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixEnum.java
  * For performance : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixPerf.java
  * Fluent abuse : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixFluentAbuse.java
+ * Lombok : https://github.com/framiere/FooBarQix/blob/master/src/main/java/fr/ramiere/codestory/FooBarQixLombok.java
+ * Smallest entry ever : https://github.com/framiere/foobarqix-smallest-java-version-ever/blob/master/src/main/java/fr/ramiere/foobarqix/SmallestFooBarQixEver.java
 * C
  * https://github.com/framiere/FooBarQix/blob/master/src/main/c/foobarqix.c
 * ASM (work in progress)
@@ -72,7 +74,7 @@ Bar
 BarFoo
 FooBar
 BarBarBar
-QixBar
+<D-c>QixBar
 FooBarQix
 Bar
 Bar
@@ -134,5 +136,8 @@ Running fr.ramiere.codestory.FooBarQixBenchmarkPerfTest
 FooBarQixBenchmarkPerfTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
  round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 205, GC.time: 0.12, time.total: 1.81, time.warmup: 0.49, time.bench: 1.32
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.827 sec
+FooBarQixBenchmarkLombokTest.bench: [measured 2000 out of 2500 rounds, threads: 10 (physical processors: 4)]
+ round: 0.01 [+- 0.01], round.gc: 0.00 [+- 0.00], GC.calls: 213, GC.time: 0.12, time.total: 1.72, time.warmup: 0.43, time.bench: 1.29
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.736 sec
 ```
 
