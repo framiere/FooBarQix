@@ -1,5 +1,6 @@
 package fr.ramiere.codestory;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.MethodRule;
@@ -10,18 +11,23 @@ import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 @SuppressWarnings("deprecation")
 public abstract class FooBarQixBenchmarkTest {
 
-    @Rule
-    public MethodRule benchmarkRun = new BenchmarkRule();
+	@Rule
+	public MethodRule benchmarkRun = new BenchmarkRule();
 
-    protected FooBarQix fooBarQix;
+	protected FooBarQix fooBarQix;
 
-    public abstract void buildFooBarQix();
+	public abstract FooBarQix buildFooBarQix();
 
-    @Test
-    @BenchmarkOptions(benchmarkRounds = 2000, warmupRounds = 500, concurrency = 10)
-    public void bench() {
-        for (int i = 1; i < 10000; i++) {
-            fooBarQix.convert(i);
-        }
-    }
+	@Before
+	public void setup() {
+		fooBarQix = buildFooBarQix();
+	}
+
+	@Test
+	@BenchmarkOptions(benchmarkRounds = 2000, warmupRounds = 500, concurrency = 10)
+	public void bench() {
+		for (int i = 1; i < 10000; i++) {
+			fooBarQix.convert(i);
+		}
+	}
 }
