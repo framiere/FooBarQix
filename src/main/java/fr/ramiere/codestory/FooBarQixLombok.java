@@ -1,10 +1,8 @@
 package fr.ramiere.codestory;
 
-import java.util.Arrays;
-
 import lombok.ExtensionMethod;
 
-@ExtensionMethod({ Arrays.class, FooBarQixLombokUtils.class })
+@ExtensionMethod(FooBarQixLombokUtils.class)
 public class FooBarQixLombok extends FooBarQix {
 
 	@Override
