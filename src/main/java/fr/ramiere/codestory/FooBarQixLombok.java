@@ -15,9 +15,7 @@ public class FooBarQixLombok extends FooBarQix {
 	public String convert(Integer number) {
 		final String value = Integer.toString(number);
 		final StringBuilder ret = new StringBuilder();
-		ret.append(number.foo());
-		ret.append(number.bar());
-		ret.append(number.qix());
+		ret.append(number.foo(), number.bar(), number.qix());
 		for (int i = 0; i < value.length(); i++) {
 			Character car = new Character(value.charAt(i));
 			ret.append(car.foobarqix());

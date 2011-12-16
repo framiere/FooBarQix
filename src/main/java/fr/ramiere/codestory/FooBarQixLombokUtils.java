@@ -36,4 +36,10 @@ public class FooBarQixLombokUtils {
 	public static String emptyRule(StringBuilder ret, String value) {
 		return ret.length() == 0 ? value : ret.toString();
 	}
+
+	public static void append(StringBuilder ret, String... values) {
+		for (String value : values) {
+			ret.append(value);
+		}
+	}
 }

@@ -17,6 +17,14 @@
 * ASM (work in progress)
  * https://github.com/framiere/FooBarQix/blob/master/src/main/asm/foobarqix.asm
 
+# Execute 
+
+``` code
+$ git clone https://github.com/framiere/FooBarQix.git
+$ cd FooBarQix
+$ mvn test
+```
+
 # Results
 
 1
